@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CartModal from "./CartModal";
+import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 // import { useWixClient } from "@/hooks/useWixClient";
 // import Cookies from "js-cookie";
 // import { useCartStore } from "@/hooks/useCartStore";
@@ -61,7 +63,21 @@ const NavIcons = () => {
   //   useEffect(() => {
   //     getCart(wixClient);
   //   }, [wixClient, getCart]);
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsCartOpen(false);
+      }
+    };
 
+    document.addEventListener("keydown", handler);
+    return () => {
+      document.removeEventListener("keydown", handler);
+    };
+  }, []);
+
+  const cartRef = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(cartRef, () => setIsCartOpen(false));
   return (
     <div className="flex items-center gap-4 xl:gap-6 relative">
       <Image
@@ -89,6 +105,7 @@ const NavIcons = () => {
         className="cursor-pointer"
       />
       <div
+        ref={cartRef}
         className="relative cursor-pointer"
         onClick={() => setIsCartOpen((prev) => !prev)}
       >
@@ -96,8 +113,8 @@ const NavIcons = () => {
         <div className="absolute -top-4 -right-4 w-6 h-6 bg-custom-pink rounded-full text-white text-sm flex items-center justify-center">
           {/* {counter} */}2
         </div>
+        {isCartOpen && <CartModal />}
       </div>
-      {isCartOpen && <CartModal />}
     </div>
   );
 };
