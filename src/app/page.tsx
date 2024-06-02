@@ -21,8 +21,9 @@ const HomePage = async () => {
         <MaxWidthWrapper className="text-2xl  mb-12">
           <h1>Categories</h1>
         </MaxWidthWrapper>
-
-        {/* <CategoryList /> */}
+        <Suspense fallback={"Loading..."}>
+          <CategoryList />
+        </Suspense>
       </div>
     </div>
   );

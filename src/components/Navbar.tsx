@@ -7,7 +7,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 
 const NavIcons = dynamic(() => import("./NavIcons"), { ssr: false });
 export const navItems = [
-  { id: 1, page: "Home", path: "/home" },
+  { id: 1, page: "Home", path: "/" },
   { id: 2, page: "Shop", path: "/shop" },
   { id: 3, page: "Deals", path: "/deals" },
   { id: 4, page: "About", path: "/about" },

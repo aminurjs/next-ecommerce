@@ -6,9 +6,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import CartModal from "./CartModal";
-import { useOnClickOutside } from "@/hooks/use-on-click-outside";
-// import { useWixClient } from "@/hooks/useWixClient";
-// import Cookies from "js-cookie";
+import { useOnClickOutside } from "../../hooks/use-on-click-outside";
+import useWixClient from "../../hooks/useWixClient";
+import Cookies from "js-cookie";
 // import { useCartStore } from "@/hooks/useCartStore";
 
 const NavIcons = () => {
@@ -17,10 +17,9 @@ const NavIcons = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-  //   const pathName = usePathname();
-  const isLoggedIn = false;
-  //   const wixClient = useWixClient();
-  //   const isLoggedIn = wixClient.auth.loggedIn();
+
+  const wixClient = useWixClient();
+  const isLoggedIn = wixClient.auth.loggedIn();
 
   // TEMPORARY
   // const isLoggedIn = false;
@@ -50,12 +49,12 @@ const NavIcons = () => {
   // };
 
   const handleLogout = async () => {
-    //     setIsLoading(true);
-    //     Cookies.remove("refreshToken");
-    //     const { logoutUrl } = await wixClient.auth.logout(window.location.href);
-    //     setIsLoading(false);
-    //     setIsProfileOpen(false);
-    //     router.push(logoutUrl);
+    setIsLoading(true);
+    Cookies.remove("refreshToken");
+    const { logoutUrl } = await wixClient.auth.logout(window.location.href);
+    setIsLoading(false);
+    setIsProfileOpen(false);
+    router.push(logoutUrl);
   };
 
   //   const { cart, counter, getCart } = useCartStore();
