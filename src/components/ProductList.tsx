@@ -1,4 +1,4 @@
-import { wixCLientServer } from "@/liv/wixClientServer";
+import { wixCLientServer } from "@/lib/wixClientServer";
 import { products } from "@wix/stores";
 
 import Image from "next/image";

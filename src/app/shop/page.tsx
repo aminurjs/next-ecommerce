@@ -1,6 +1,6 @@
 import Filter from "@/components/Filter";
 import ProductList from "@/components/ProductList";
-import { wixCLientServer } from "@/liv/wixClientServer";
+import { wixCLientServer } from "@/lib/wixClientServer";
 import Image from "next/image";
 import { Suspense } from "react";
 

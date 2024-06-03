@@ -2,7 +2,7 @@ import Add from "@/components/Add";
 import CustomizeProducts from "@/components/CustomizeProducts";
 import ProductImages from "@/components/ProductImages";
 import Reviews from "@/components/Reviews";
-import { wixCLientServer } from "@/liv/wixClientServer";
+import { wixCLientServer } from "@/lib/wixClientServer";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
