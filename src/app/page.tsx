@@ -11,20 +11,21 @@ const HomePage = async () => {
       <MaxWidthWrapper className="mt-24">
         <h1 className="text-2xl">Feature Products</h1>
         <Suspense fallback={"Loading..."}>
-          <ProductList
-            categoryId={process.env.FEATURED_PRODUCTS_CATEGORY_ID!}
-            limit={4}
-          />
+          <ProductList categoryId={process.env.FEATURED_PRODUCTS_CATEGORY_ID!} limit={4} />
         </Suspense>
       </MaxWidthWrapper>
-      <div className="mt-24">
-        <MaxWidthWrapper className="text-2xl  mb-12">
-          <h1>Categories</h1>
-        </MaxWidthWrapper>
+      <MaxWidthWrapper className="mt-24">
+        <h1 className="text-2xl mb-12">Categories</h1>{" "}
         <Suspense fallback={"Loading..."}>
           <CategoryList />
         </Suspense>
-      </div>
+      </MaxWidthWrapper>
+      <MaxWidthWrapper className="mt-24">
+        <h1 className="text-2xl mb-12">New Products</h1>
+        <Suspense fallback={"Loading..."}>
+          <ProductList categoryId={process.env.FEATURED_PRODUCTS_NEW_CATEGORY_ID!} limit={4} />
+        </Suspense>
+      </MaxWidthWrapper>
     </div>
   );
 };
