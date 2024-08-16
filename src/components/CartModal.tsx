@@ -10,19 +10,17 @@ const CartModal = () => {
 
   const handleCheckout = async () => {
     try {
-      const checkout =
-        await wixClient.currentCart.createCheckoutFromCurrentCart({
-          channelType: currentCart.ChannelType.WEB,
-        });
+      const checkout = await wixClient.currentCart.createCheckoutFromCurrentCart({
+        channelType: currentCart.ChannelType.WEB,
+      });
 
-      const { redirectSession } =
-        await wixClient.redirects.createRedirectSession({
-          ecomCheckout: { checkoutId: checkout.checkoutId },
-          callbacks: {
-            postFlowUrl: window.location.origin,
-            thankYouPageUrl: `${window.location.origin}/success`,
-          },
-        });
+      const { redirectSession } = await wixClient.redirects.createRedirectSession({
+        ecomCheckout: { checkoutId: checkout.checkoutId },
+        callbacks: {
+          postFlowUrl: window.location.origin,
+          thankYouPageUrl: `${window.location.origin}/success`,
+        },
+      });
 
       if (redirectSession?.fullUrl) {
         window.location.href = redirectSession.fullUrl;
@@ -31,7 +29,16 @@ const CartModal = () => {
       console.log(err);
     }
   };
+  cart.lineItems;
+  const totalAmount = cart?.lineItems?.reduce((total, item) => {
+    const quantity = item.quantity || 0;
 
+    const amount = item.price && item.price.amount ? parseFloat(item.price.amount) : 0;
+
+    return total + amount * quantity;
+  }, 0);
+
+  console.log(cart);
   return (
     <div className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
       <h2 className="text-xl">Shopping Cart</h2>
@@ -45,12 +52,7 @@ const CartModal = () => {
                 <div className="flex gap-4">
                   {item.image && (
                     <Image
-                      src={wixMedia.getScaledToFillImageUrl(
-                        item.image,
-                        72,
-                        96,
-                        {}
-                      )}
+                      src={wixMedia.getScaledToFillImageUrl(item.image, 72, 96, {})}
                       alt=""
                       width={72}
                       height={96}
@@ -62,28 +64,20 @@ const CartModal = () => {
                     <div className="">
                       {/* TITLE */}
                       <div className="flex items-center justify-between gap-8">
-                        <h3 className="font-semibold">
-                          {item.productName?.original}
-                        </h3>
+                        <h3 className="font-semibold">{item.productName?.original}</h3>
                         <div className="p-1 bg-gray-50 rounded-sm flex items-center gap-2">
                           {item.quantity && item.quantity > 1 && (
-                            <div className="text-xs text-green-500">
-                              {item.quantity} x{" "}
-                            </div>
+                            <div className="text-xs text-green-500">{item.quantity} x </div>
                           )}
                           ${item.price?.amount}
                         </div>
                       </div>
                       {/* DESC */}
-                      <div className="text-sm text-gray-500">
-                        {item.availability?.status}
-                      </div>
+                      <div className="text-sm text-gray-500">{item.availability?.status}</div>
                     </div>
                     {/* BOTTOM */}
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">
-                        Qty. {item.quantity}
-                      </span>
+                      <span className="text-gray-500">Qty. {item.quantity}</span>
                       <span
                         className="text-blue-500"
                         style={{
@@ -103,15 +97,13 @@ const CartModal = () => {
             {" "}
             <div className="flex items-center justify-between font-semibold">
               <span className="">Subtotal</span>
-              <span className="">${cart?.subtotal?.amount}</span>
+              <span className="">${totalAmount}</span>
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-4">
               Shipping and taxes calculated at checkout.
             </p>
             <div className="flex justify-between text-sm">
-              <button className="rounded-md py-3 px-4 ring-1 ring-gray-300">
-                View Cart
-              </button>
+              <button className="rounded-md py-3 px-4 ring-1 ring-gray-300">View Cart</button>
               <button
                 className="rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75"
                 disabled={isLoading}

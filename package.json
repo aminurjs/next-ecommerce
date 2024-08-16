@@ -12,7 +12,7 @@
     "@types/js-cookie": "^3.0.6",
     "@wix/ecom": "^1.0.576",
     "@wix/redirects": "^1.0.47",
-    "@wix/sdk": "^1.9.7",
+    "@wix/sdk": "^1.12.12",
     "@wix/stores": "^1.0.153",
     "dompurify": "^3.1.4",
     "isomorphic-dompurify": "^2.11.0",
